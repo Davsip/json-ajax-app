@@ -18,9 +18,14 @@ btn.addEventListener("click", function(){ // add a event listener when the butto
 
 function renderHTML(data) {  // function to create and add html to the page
    
-   var renderHTML = "this is a test"; // with that variable we can loop thru the data.  
+   var htmlString = ""; // with that variable we can loop thru the data.  
+   for (i = 0; i < data.length; i++) {
+    htmlString += "<p>" + data[i].name + " is a " + data[i].species + " that likes to eat ";   // the for loop goes in the array , loop
+    // and increment the elements by 1 
+   }
   
-animalContainer.insertAdjacentHTML('beforeend', htmlString ) // htmlString -> point to the variable
+animalContainer.insertAdjacentHTML('beforeend', htmlString);
+ // htmlString -> point to the variable
 // "animalContainer" target the animal, 
 //>container variable and use the method "insertAdjacentHTML" available for the DOM element 
 
