@@ -5,19 +5,28 @@ var animalContainer = document.getElementById("animal-info");// variable that po
 var btn = document.getElementById("btn");  // the BTN var   /, select the html ocument.getElementById("btn")select the html document 
 btn.addEventListener("click", function(){ // add a event listener when the button gets clicked, the "click" event // with an anonymous function 
 
-    var ourRequest = new XMLHttpRequest();         // XMLHttpRequest <- this tool will stablish a connection with a URL that we specify and let us send or receive data 
-    ourRequest.open("GET", 'https://learnwebcode.github.io/json-example/animals-' + pageCounter + '.json'); // we need to use a varibale to use a method names open 
+var ourRequest = new XMLHttpRequest();         // XMLHttpRequest <- this tool will stablish a connection with a URL that we specify and let us send or receive data 
+         ourRequest.open("GET", 'https://learnwebcode.github.io/json-example/animals-' + pageCounter + '.json'); // we need to use a varibale to use a method names open 
     //to specify we use ourRequest.open() 
     // GET is to get data from the url tha e want
-    ourRequest.onload = function() {    // method called "onload",  using an anonymous function 
+         ourRequest.onload = function() {    // method called "onload",  using an anonymous function 
+         if (ourRequest.status >= 200 && ourRequest.status < 400) { // error handling 
          var ourData = JSON.parse(ourRequest.responseText); //JSON.parse will convert the text in the browser in to a JSON method 
-        //^^ we saving the data in to a  ariable 
+        //^^ we saving the data in to a  variable 
          renderHTML(ourData);
-    }; // we defined the our request
-         ourRequest.send();
+} else {
+        console.log("We connected to the server, but it returned an error.");
+      }  
+    };
+
+        ourRequest.onerror = function() {
+        console.log("Connection error");
+      };
+
+        ourRequest.send();
      // next step is add an "Event listener"  to the button on the html page
-     pageCounter++; // increment page variable 
-     if (pageCounter >3) {
+         pageCounter++; // increment page variable 
+if (pageCounter >3) {
          btn.classList.add('hide-me');  // adds a CSS class "hide-me" to hide the button after the 3rd click 
      }
 });
@@ -25,19 +34,19 @@ btn.addEventListener("click", function(){ // add a event listener when the butto
 
 function renderHTML(data) {  // function to create and add html to the page
    
-   var htmlString = ""; // with that variable we can loop thru the data.  
-   for (i = 0; i < data.length; i++) {
+var htmlString = ""; // with that variable we can loop thru the data.  
+for (i = 0; i < data.length; i++) {
     htmlString += "<p>" + data[i].name + " is a " + data[i].species + " that likes to eat ";   // the for loop goes in the array , loop
     // and increment the elements by 1 
-    for (ii = 0; ii < data[i].foods.likes.length; ii++) {  // for loop inside a   for loop 
+for (ii = 0; ii < data[i].foods.likes.length; ii++) {  // for loop inside a   for loop 
         if (ii == 0) {
           htmlString += data[i].foods.likes[ii];  
-        } else {
+ } else {
           htmlString += "  and " + data[i].foods.likes[ii];
         }
       }
-      htmlString += '  and dislikes ';
-      for (ii = 0; ii < data[i].foods.dislikes.length; ii++) {
+        htmlString += '  and dislikes ';
+for (ii = 0; ii < data[i].foods.dislikes.length; ii++) {
         if (ii == 0) {
           htmlString += data[i].foods.dislikes[ii];
         } else {
@@ -49,7 +58,7 @@ function renderHTML(data) {  // function to create and add html to the page
   
    
 
-   }
+}
   
 animalContainer.insertAdjacentHTML('beforeend', htmlString);
  // htmlString -> point to the variable
